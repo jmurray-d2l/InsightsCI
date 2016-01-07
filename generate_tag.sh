@@ -14,7 +14,7 @@ createTag() {
 }
 
 push() {
-  git push -q https://$GITHUB_RELEASE_TOKEN@github.com/Brightspace/$REPO_NAME --follow-tags
+  git push https://$GITHUB_RELEASE_TOKEN@github.com/Brightspace/$REPO_NAME
 }
 
 updateVersion() {
@@ -32,24 +32,24 @@ setGitUser() {
   git checkout $TRAVIS_BRANCH
 }
 
-if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then
-  CURRENT_VERSION=$(grep -Po '(?<="version": ")[^"]*' package.json)
-  LAST_MESSAGE=$(git log -1 --oneline)
-  UPDATE_TYPE=minor
-  UPDATE_TYPE_OVERRIDE=$(echo $LAST_MESSAGE | grep -oP '(?:(?<=\[).+?(?=\]))')
-  echo "Debug - Last message is: $LAST_MESSAGE"
-  echo "Debug - Override is: $UPDATE_TYPE_OVERRIDE"
+echo "$TRAVIS_PULL_REQUEST"
+echo "$TRAVIS_BRANCH"
 
-  if [ "$UPDATE_TYPE_OVERRIDE" = "increment major" ]; then
-    UPDATE_TYPE=major
-  fi
+CURRENT_VERSION=$(grep -Po '(?<="version": ")[^"]*' package.json)
+LAST_MESSAGE=$(git log -1 --oneline)
+UPDATE_TYPE=minor
+UPDATE_TYPE_OVERRIDE=$(echo $LAST_MESSAGE | grep -oP '(?:(?<=\[).+?(?=\]))')
+echo "Debug - Last message is: $LAST_MESSAGE"
+echo "Debug - Override is: $UPDATE_TYPE_OVERRIDE"
 
-  if [ "$UPDATE_TYPE_OVERRIDE" = "increment patch" ]; then
-    UPDATE_TYPE=patch
-  fi
-
-  setGitUser
-  updateVersion $CURRENT_VERSION $UPDATE_TYPE
-  createTag $NEW_VERSION $LAST_MESSAGE
-  push
+if [ "$UPDATE_TYPE_OVERRIDE" = "increment major" ]; then
+UPDATE_TYPE=major
 fi
+
+if [ "$UPDATE_TYPE_OVERRIDE" = "increment patch" ]; then
+UPDATE_TYPE=patch
+fi
+
+setGitUser
+updateVersion $CURRENT_VERSION $UPDATE_TYPE
+push
