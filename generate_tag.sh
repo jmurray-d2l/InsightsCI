@@ -32,7 +32,7 @@ setGitUser() {
   git checkout $TRAVIS_BRANCH
 }
 
-if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then
   CURRENT_VERSION=$(grep -Po '(?<="version": ")[^"]*' package.json)
   LAST_MESSAGE=$(git log -1 --oneline)
   UPDATE_TYPE=minor
