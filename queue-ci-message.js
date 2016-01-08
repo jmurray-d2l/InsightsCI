@@ -17,8 +17,8 @@ var queueCiMessage = function(){
 
   var message = {
     url: 'https://git.dev.d2l/scm/an/ap.git',
-    path: 'insightsPortal/_config/AppLoader/Apps/' + process.env.FRA_JSON,
-    key: process.env.FRA_KEY,
+    path: 'insightsPortal/_config/AppLoader/Apps/' + process.env.FRA_NAME + '.json',
+    key: 'urn:d2l:fra:class:' + process.env.FRA_NAME,
     version: appPublisher.getLocation() + 'appconfig.json'
   };
 
