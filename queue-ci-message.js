@@ -2,7 +2,6 @@ var ironMQ = require('iron_mq'),
   frauPublisher = require('frau-publisher'),
   publishOptions = require('../.publish_options.js');
 
-
 var queueCiMessage = function(){
   var imq = new ironMQ.Client( {
     token: process.env.IRON_IO_TOKEN,
@@ -12,6 +11,7 @@ var queueCiMessage = function(){
 
   console.log('Queue Name: ' + process.env.IRON_QUEUE_NAME);
   console.log('Publishing Options: ' + publishOptions);
+
   var queue = imq.queue(process.env.IRON_QUEUE_NAME),
     appPublisher = frauPublisher.app(publishOptions);
 
@@ -32,14 +32,10 @@ var queueCiMessage = function(){
   });
 };
 
-/*
 if (process.env.TRAVIS_BRANCH == 'master' && process.env.TRAVIS_PULL_REQUEST == 'false') {
   queueCiMessage();
 }
 else {
-  console.log('This is not a commit to master, not sending message to CI queue');
-}*/
-
-
-queueCiMessage();
+  console.log('This is not a commit to master, not sending message to CI queue.');
+}
 
