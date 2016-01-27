@@ -34,7 +34,7 @@ setGitUser() {
 
 if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
   CURRENT_VERSION=$(grep -Po '(?<="version": ")[^"]*' package.json)
-  LAST_MESSAGE=$(git log -1 --oneline)
+  LAST_MESSAGE=$(git log -1 --pretty=%B)
   UPDATE_TYPE=minor
   UPDATE_TYPE_OVERRIDE=$(echo $LAST_MESSAGE | grep -oP '(?:(?<=\[).+?(?=\]))')
   echo "Debug - Last message is: $LAST_MESSAGE"
