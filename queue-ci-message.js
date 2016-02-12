@@ -13,11 +13,13 @@ var queueCiMessage = function(){
   console.log('Publishing Options: ' + publishOptions);
 
   var queue = imq.queue(process.env.IRON_QUEUE_NAME),
-    appPublisher = frauPublisher.app(publishOptions);
+    appPublisher = frauPublisher.app(publishOptions),
+    url = process.env.FRA_LMS_URL || 'https://git.dev.d2l/scm/an/ap.git'
+    path = process.env.FRA_LMS_PATH || 'insightsPortal/_config/AppLoader/Apps/' + process.env.FRA_NAME + '.json';
 
   var message = {
-    url: 'https://git.dev.d2l/scm/an/ap.git',
-    path: 'insightsPortal/_config/AppLoader/Apps/' + process.env.FRA_NAME + '.json',
+    url: url,
+    path: path,
     key: 'urn:d2l:fra:class:' + process.env.FRA_NAME,
     version: appPublisher.getLocation() + 'appconfig.json'
   };
@@ -38,4 +40,3 @@ if (process.env.TRAVIS_BRANCH == 'master' && process.env.TRAVIS_PULL_REQUEST == 
 else {
   console.log('This is not a commit to master, not sending message to CI queue.');
 }
-
