@@ -21,7 +21,8 @@ var queueCiMessage = function(){
     url: url,
     path: path,
     key: 'urn:d2l:fra:class:' + process.env.FRA_NAME,
-    version: appPublisher.getLocation() + 'appconfig.json'
+    version: appPublisher.getLocation() + 'appconfig.json',
+    runMastiff: process.env.RUN_MASTIFF === undefined ? true : (process.env.RUN_MASTIFF === 'true')
   };
 
   queue.post( JSON.stringify(message), function( error, body ){
