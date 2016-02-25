@@ -22,7 +22,7 @@ var queueCiMessage = function(){
     path: path,
     key: 'urn:d2l:fra:class:' + process.env.FRA_NAME,
     version: appPublisher.getLocation() + 'appconfig.json',
-    runMastiff: process.env.RUN_MASTIFF ? true : (process.env.RUN_MASTIFF.toLowerCase() === 'true')
+    runMastiff: !process.env.RUN_MASTIFF ? true : (process.env.RUN_MASTIFF.toLowerCase() === 'true')
   };
 
   queue.post( JSON.stringify(message), function( error, body ){
